@@ -18,4 +18,4 @@ Current results so far
 > Running on workstation with quad-core SandyBridge i2600K (3401Mhz) with 8GB of RAM, Win7 SP1
 > No tuning was done, default local silo settings were used
 
-Akka.net uses local actors, while Orleans always expect distribution. So 10M messages per/sec between local actors in Akka.net are not comparable to 65K messages per/s in Orleans. 
+NOTE: Akka.net uses local actors, while Orleans always expect distribution. So 10M messages per/sec between local actors in Akka.net are not comparable to 65K messages per/s in Orleans. 
