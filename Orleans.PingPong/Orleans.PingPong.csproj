@@ -60,15 +60,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orleans.PingPong.Grains.Interfaces\Orleans.PingPong.Grains.Interfaces.csproj">
-      <Project>{37e4cac1-a41b-4c9d-929d-7cd77a9a2aeb}</Project>
-      <Name>Orleans.PingPong.Grains.Interfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="DevTestClientConfiguration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orleans.PingPong.Grains.Interfaces\Orleans.PingPong.Grains.Interfaces.csproj">
+      <Project>{37e4cac1-a41b-4c9d-929d-7cd77a9a2aeb}</Project>
+      <Name>Orleans.PingPong.Grains.Interfaces</Name>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
