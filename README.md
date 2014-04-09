@@ -15,4 +15,4 @@ Current results so far :(
 - Time: 15.63 sec
 - TPS: 65,497 per/sec
 
-> Running on workstation with quad-core SandyBridge i2600K (3401Mhz) with 8GB of RAM, Windows 7 SP1
+> Running on workstation with quad-core SandyBridge i2600K (3401Mhz) with 8GB of RAM, Win7 SP1
