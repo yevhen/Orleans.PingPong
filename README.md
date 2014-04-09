@@ -10,13 +10,9 @@ Pre-requisites: Installed OrleansSDK, VS2013
 
 Current results so far :(
 -------------------------
-OSVersion: Microsoft Windows NT 6.1.7601 Service Pack 1
-ProcessorCount: 8
-ClockSpeed: 3401 MHZ
+- Actor Count: 1024
+- Total: 1,024,000.00 messages
+- Time: 15.63 sec
+- TPS: 65,497 per/sec
 
-Actor Count: 1024
-Total: 1,024,000.00 messages
-Time: 15.63 sec
-TPS: 65,497 per/sec
-
-* Running on workstation with SandyBridge i2600K with 8GB of RAM
+> Running on workstation with quad-core SandyBridge i2600K (3401Mhz) with 8GB of RAM, Windows 7 SP1
