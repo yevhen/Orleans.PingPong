@@ -43,11 +43,10 @@ namespace Orleans.PingPong
                 results.Add(observer.AsTask());
             }
 
-            var stopwatch = Stopwatch.StartNew();
-            
             clients.ForEach(c => c.Run());
-            await Task.WhenAll(results.ToArray());
 
+            var stopwatch = Stopwatch.StartNew();
+            await Task.WhenAll(results.ToArray());
             stopwatch.Stop();
 
             WriteResultsToConsole(stopwatch);
@@ -73,7 +72,7 @@ namespace Orleans.PingPong
         void WriteResults(Stopwatch stopwatch, TextWriter writer)
         {
             var totalActorCount = numberOfClients * 2L; // ping and pong actor
-            var totalMessagesReceived = numberOfRepeatsPerClient * totalActorCount;
+            var totalMessagesReceived = numberOfRepeatsPerClient * totalActorCount * 2; // communication in Orleans' is always two-way
             var throughput = (totalMessagesReceived / stopwatch.Elapsed.TotalSeconds);
 
             writer.WriteLine("OSVersion: {0}", Environment.OSVersion);

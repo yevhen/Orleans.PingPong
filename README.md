@@ -12,9 +12,9 @@ Current results so far
 -------------------------
 Running on workstation with quad-core SandyBridge i2600K (3401Mhz) with 8GB of RAM, Win7 SP1.
 - Actor Count: 1024
-- Total: 1,024,000.00 messages
-- Time: 15.63 sec
-- TPS: 65,497 per/sec
+- Total: 2,048,000.00 messages
+- Time: 15.86 sec
+- TPS: 129,161 per/sec
 
 > No tuning was done, default local silo settings were used.
 

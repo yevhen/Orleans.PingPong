@@ -31,7 +31,7 @@ namespace Orleans.PingPong
 
         public Task Run()
         {
-            actor.Ping(this, msg);
+            actor.Ping(this, msg).Ignore();
             pings++;
 
             return TaskDone.Done;
@@ -65,7 +65,7 @@ namespace Orleans.PingPong
     {
         public Task Ping(IClient @from, Message message)
         {
-            from.Pong(this, message);
+            from.Pong(this, message).Ignore();
             return TaskDone.Done;
         }
     }
