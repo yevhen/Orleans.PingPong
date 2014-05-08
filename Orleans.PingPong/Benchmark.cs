@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Management;
 using System.Threading.Tasks;
+
+using Orleans.Bus;
 
 namespace Orleans.PingPong
 {
     public class Benchmark
     {
         const string resultsFile = @"C:\Temp\OrleansPingPong.txt";
-        
-        readonly List<IClient> clients = new List<IClient>();
-        readonly List<IClientObserver> observers = new List<IClientObserver>();
+
+        readonly List<string> clients = new List<string>();
+        readonly List<BenchmarkDoneAwaiter> awaiters = new List<BenchmarkDoneAwaiter>();
 
         readonly int numberOfClients;
         readonly int numberOfRepeatsPerClient;
+
+        readonly IMessageBus bus = MessageBus.Instance;
+        readonly ISubscriptionManager subscriptions = SubscriptionManager.Instance;
 
         public Benchmark(int numberOfClients, int numberOfRepeatsPerClient)
         {
@@ -30,20 +36,23 @@ namespace Orleans.PingPong
 
             for (var i = 0; i < numberOfClients; i++)
             {
-                var destination = DestinationFactory.GetGrain(Guid.NewGuid());
-
-                var client = ClientFactory.GetGrain(Guid.NewGuid());
-                await client.Initialize(destination, numberOfRepeatsPerClient);
-
-                var observer = new ClientObserver();
-                await client.Subscribe(ClientObserverFactory.CreateObjectReference(observer).Result);
-                
+                var client = "C" + i;
+                var destination = "D" + i;
                 clients.Add(client);
-                observers.Add(observer); // to prevent GC collection of observer
-                results.Add(observer.AsTask());
+
+                await bus.Send(client, 
+                  new Initialize(destination, numberOfRepeatsPerClient));
+
+                var awaiter = new BenchmarkDoneAwaiter();
+                awaiters.Add(awaiter); // to prevent GC collection of observer
+
+                var observer = await subscriptions.CreateObserver(awaiter);
+                await subscriptions.Subscribe<BenchmarkDone>(client, observer);
+                
+                results.Add(awaiter.AsTask());
             }
 
-            clients.ForEach(c => c.Run());
+            clients.ForEach(id => bus.Send(id, new RunBenchmark()));
 
             var stopwatch = Stopwatch.StartNew();
             await Task.WhenAll(results.ToArray());
@@ -92,18 +101,19 @@ namespace Orleans.PingPong
         }
     }
    
-    public class ClientObserver : IClientObserver
+    public class BenchmarkDoneAwaiter : Observes
     {
         readonly TaskCompletionSource<ClientResult> tcs = new TaskCompletionSource<ClientResult>();
-
-        public void Done(long pings, long pongs)
-        {
-            tcs.SetResult(new ClientResult(pings, pongs));
-        }
 
         public Task<ClientResult> AsTask()
         {
             return tcs.Task;
+        }
+
+        public void On(string source, object e)
+        {
+            var done = (BenchmarkDone) e;
+            tcs.SetResult(new ClientResult(done.Pings, done.Pongs));
         }
     }
 

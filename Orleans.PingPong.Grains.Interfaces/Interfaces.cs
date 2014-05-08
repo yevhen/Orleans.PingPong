@@ -2,27 +2,84 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleans.Bus;
+
 namespace Orleans.PingPong
 {
-    [Immutable]
+    [Immutable, Serializable]
     public class Message
     {}
 
-    public interface IClient : IGrain
+    [Immutable, Serializable]
+    public class Initialize
     {
-        Task Run();
-        Task Pong(IDestination from, Message message);
-        Task Initialize(IDestination actor, long repeats);
-        Task Subscribe(IClientObserver subscriber);
+        public readonly string Destination;
+        public readonly long Repeats;
+
+        public Initialize(string destination, long repeats)
+        {
+            Destination = destination;
+            Repeats = repeats;
+        }
+    }    
+    
+    [Immutable, Serializable]
+    public class RunBenchmark
+    {}
+
+    [Immutable, Serializable]
+    public class BenchmarkDone
+    {
+        public readonly long Pings;
+        public readonly long Pongs;
+
+        public BenchmarkDone(long pings, long pongs)
+        {
+            Pings = pings;
+            Pongs = pongs;
+        }
     }
 
-    public interface IClientObserver : IGrainObserver
+    [Immutable, Serializable]
+    public class Pong
     {
-        void Done(long pings, long pongs);
+        public readonly string Sender;
+        public readonly Message Payload;
+
+        public Pong(string sender, Message payload)
+        {
+            Sender = sender;
+            Payload = payload;
+        }
     }
 
-    public interface IDestination : IGrain
+    [Handles(typeof(Initialize))]
+    [Handles(typeof(RunBenchmark))]
+    [Handles(typeof(Pong))]
+    [Notifies(typeof(BenchmarkDone))]
+    [ExtendedPrimaryKey]
+    public interface IPingGrain : IObservableGrain
     {
-        Task Ping(IClient from, Message message);
+        [Dispatcher] Task Handle(object cmd);
+    }
+
+    [Immutable, Serializable]
+    public class Ping
+    {
+        public readonly string Sender;
+        public readonly Message Payload;
+
+        public Ping(string sender, Message payload)
+        {
+            Sender = sender;
+            Payload = payload;
+        }
+    }
+
+    [Handles(typeof(Ping))]
+    [ExtendedPrimaryKey]
+    public interface IPongGrain : IGrain
+    {
+        [Dispatcher] Task Handle(object message);
     }
 }

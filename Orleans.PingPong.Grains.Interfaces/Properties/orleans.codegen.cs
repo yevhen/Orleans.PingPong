@@ -26,63 +26,64 @@ namespace Orleans.PingPong
     using System.Reflection;
     using Orleans.Serialization;
     using Orleans.PingPong;
+    using Orleans.Bus;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class ClientFactory
+    public class PingGrainFactory
     {
         
 
-                        public static IClient GetGrain(long primaryKey)
+                        public static IPingGrain GetGrain(long primaryKey, string keyExt)
                         {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IClient), 523268002, primaryKey));
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPingGrain), 1448264103, primaryKey, keyExt));
                         }
 
-                        public static IClient GetGrain(long primaryKey, string grainClassNamePrefix)
+                        public static IPingGrain GetGrain(long primaryKey, string keyExt, string grainClassNamePrefix)
                         {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IClient), 523268002, primaryKey, grainClassNamePrefix));
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPingGrain), 1448264103, primaryKey, keyExt, grainClassNamePrefix));
                         }
 
-                        public static IClient GetGrain(Guid primaryKey)
+                        public static IPingGrain GetGrain(Guid primaryKey, string keyExt)
                         {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IClient), 523268002, primaryKey));
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPingGrain), 1448264103, primaryKey, keyExt));
                         }
 
-                        public static IClient GetGrain(Guid primaryKey, string grainClassNamePrefix)
+                        public static IPingGrain GetGrain(Guid primaryKey, string keyExt, string grainClassNamePrefix)
                         {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IClient), 523268002, primaryKey, grainClassNamePrefix));
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPingGrain), 1448264103, primaryKey, keyExt,grainClassNamePrefix));
                         }
 
-            public static IClient Cast(IAddressable grainRef)
+            public static IPingGrain Cast(IAddressable grainRef)
             {
                 
-                return ClientReference.Cast(grainRef);
+                return PingGrainReference.Cast(grainRef);
             }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
         [System.SerializableAttribute()]
-        [Orleans.GrainReferenceAttribute("Orleans.PingPong.IClient")]
-        internal class ClientReference : Orleans.GrainReference, IClient, Orleans.IAddressable
+        [Orleans.GrainReferenceAttribute("Orleans.PingPong.IPingGrain")]
+        internal class PingGrainReference : Orleans.GrainReference, IPingGrain, Orleans.IAddressable
         {
             
 
-            public static IClient Cast(IAddressable grainRef)
+            public static IPingGrain Cast(IAddressable grainRef)
             {
                 
-                return (IClient) GrainReference.CastInternal(typeof(IClient), (GrainReference gr) => { return new ClientReference(gr);}, grainRef, 523268002);
+                return (IPingGrain) GrainReference.CastInternal(typeof(IPingGrain), (GrainReference gr) => { return new PingGrainReference(gr);}, grainRef, 1448264103);
             }
 
-                protected override int InterfaceId { get { return 523268002; } }
+                protected override int InterfaceId { get { return 1448264103; } }
 
-                public override bool IsCompatible(int interfaceId) { return interfaceId == this.InterfaceId; }
+                public override bool IsCompatible(int interfaceId) { return interfaceId == this.InterfaceId || interfaceId == -71421061; }
 
-                protected override string InterfaceName { get { return "Orleans.PingPong.IClient"; } }
+                protected override string InterfaceName { get { return "Orleans.PingPong.IPingGrain"; } }
 
-                protected override string GetMethodName(int interfaceId, int methodId) { return ClientMethodInvoker.GetMethodName(interfaceId, methodId); }
+                protected override string GetMethodName(int interfaceId, int methodId) { return PingGrainMethodInvoker.GetMethodName(interfaceId, methodId); }
             
-            protected internal ClientReference(GrainReference reference) : 
+            protected internal PingGrainReference(GrainReference reference) : 
                     base(reference)
             {
             }
@@ -90,61 +91,56 @@ namespace Orleans.PingPong
             [Orleans.CopierMethodAttribute()]
             public static object _Copier(object original)
             {
-                ClientReference input = ((ClientReference)(original));
-                return ((ClientReference)(GrainReference.CopyGrainReference(input)));
+                PingGrainReference input = ((PingGrainReference)(original));
+                return ((PingGrainReference)(GrainReference.CopyGrainReference(input)));
             }
             
             [Orleans.SerializerMethodAttribute()]
             public static void _Serializer(object original, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
             {
-                ClientReference input = ((ClientReference)(original));
+                PingGrainReference input = ((PingGrainReference)(original));
                 GrainReference.SerializeGrainReference(input, stream, expected);
             }
             
             [Orleans.DeserializerMethodAttribute()]
             public static object _Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
             {
-                return ClientReference.Cast(((Orleans.GrainReference)(GrainReference.DeserializeGrainReference(expected, stream))));
+                return PingGrainReference.Cast(((Orleans.GrainReference)(GrainReference.DeserializeGrainReference(expected, stream))));
             }
             
-            public System.Threading.Tasks.Task Run()
+            public System.Threading.Tasks.Task Handle(object cmd)
             {
 
-                return base.InvokeMethodAsync<object>(1975541297, new object[] {}, TimeSpan.Zero );
+                return base.InvokeMethodAsync<object>(1804230293, new object[] {cmd}, TimeSpan.Zero );
             }
             
-            public System.Threading.Tasks.Task Pong(Orleans.PingPong.IDestination from, Orleans.PingPong.Message message)
+            public System.Threading.Tasks.Task Attach(Orleans.Bus.Observes o, System.Type e)
             {
+GrainFactoryBase.CheckGrainObserverParamInternal(o);
 
-                return base.InvokeMethodAsync<object>(-2060440583, new object[] {from is GrainBase ? Orleans.PingPong.DestinationFactory.Cast(from.AsReference()) : from, message}, TimeSpan.Zero );
+                return base.InvokeMethodAsync<object>(-1295904905, new object[] {o is GrainBase ? Orleans.Bus.ObservesFactory.Cast(o.AsReference()) : o, e}, TimeSpan.Zero );
             }
             
-            public System.Threading.Tasks.Task Initialize(Orleans.PingPong.IDestination actor, long repeats)
+            public System.Threading.Tasks.Task Detach(Orleans.Bus.Observes o, System.Type e)
             {
+GrainFactoryBase.CheckGrainObserverParamInternal(o);
 
-                return base.InvokeMethodAsync<object>(1682027821, new object[] {actor is GrainBase ? Orleans.PingPong.DestinationFactory.Cast(actor.AsReference()) : actor, repeats}, TimeSpan.Zero );
-            }
-            
-            public System.Threading.Tasks.Task Subscribe(Orleans.PingPong.IClientObserver subscriber)
-            {
-GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
-
-                return base.InvokeMethodAsync<object>(-1238941369, new object[] {subscriber is GrainBase ? Orleans.PingPong.ClientObserverFactory.Cast(subscriber.AsReference()) : subscriber}, TimeSpan.Zero );
+                return base.InvokeMethodAsync<object>(-1703330102, new object[] {o is GrainBase ? Orleans.Bus.ObservesFactory.Cast(o.AsReference()) : o, e}, TimeSpan.Zero );
             }
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [Orleans.MethodInvokerAttribute("Orleans.PingPong.IClient", 523268002)]
-    internal class ClientMethodInvoker : IGrainMethodInvoker
+    [Orleans.MethodInvokerAttribute("Orleans.PingPong.IPingGrain", 1448264103)]
+    internal class PingGrainMethodInvoker : IGrainMethodInvoker
     {
         
         public int InterfaceId
         {
             get
             {
-                return 523268002;
+                return 1448264103;
             }
         }
         
@@ -153,20 +149,28 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
                 if (grain == null) throw new System.ArgumentNullException("grain");
                 switch (interfaceId)
                 {
-                    case 523268002:  // IClient
+                    case 1448264103:  // IPingGrain
                         switch (methodId)
                         {
-                            case 1975541297: 
-                                await ((IClient)grain).Run();
+                            case 1804230293: 
+                                await ((IPingGrain)grain).Handle((Object)arguments[0]);
                               return true;
-                            case -2060440583: 
-                                await ((IClient)grain).Pong((IDestination)arguments[0], (Message)arguments[1]);
+                            case -1295904905: 
+                                await ((IPingGrain)grain).Attach((Observes)arguments[0], (Type)arguments[1]);
                               return true;
-                            case 1682027821: 
-                                await ((IClient)grain).Initialize((IDestination)arguments[0], (Int64)arguments[1]);
+                            case -1703330102: 
+                                await ((IPingGrain)grain).Detach((Observes)arguments[0], (Type)arguments[1]);
                               return true;
-                            case -1238941369: 
-                                await ((IClient)grain).Subscribe((IClientObserver)arguments[0]);
+                            default: 
+                                throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                        }case -71421061:  // IObservableGrain
+                        switch (methodId)
+                        {
+                            case -1295904905: 
+                                await ((IObservableGrain)grain).Attach((Observes)arguments[0], (Type)arguments[1]);
+                              return true;
+                            case -1703330102: 
+                                await ((IObservableGrain)grain).Detach((Observes)arguments[0], (Type)arguments[1]);
                               return true;
                             default: 
                                 throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
@@ -182,17 +186,28 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
             switch (interfaceId)
             {
                 
-                case 523268002:  // IClient
+                case 1448264103:  // IPingGrain
                     switch (methodId)
                     {
-                        case 1975541297:
-                            return "Run";
-                    case -2060440583:
-                            return "Pong";
-                    case 1682027821:
-                            return "Initialize";
-                    case -1238941369:
-                            return "Subscribe";
+                        case 1804230293:
+                            return "Handle";
+                    case -1295904905:
+                            return "Attach";
+                    case -1703330102:
+                            return "Detach";
+                    case -606142484:
+                            return "GetProperties";
+                    
+                        default: 
+                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                    }
+                case -71421061:  // IObservableGrain
+                    switch (methodId)
+                    {
+                        case -1295904905:
+                            return "Attach";
+                    case -1703330102:
+                            return "Detach";
                     case -606142484:
                             return "GetProperties";
                     
@@ -209,7 +224,7 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
     [Serializable()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class ClientProperties
+    public class PingGrainProperties
     {
         
 
@@ -222,52 +237,59 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class ClientObserverFactory
+    public class PongGrainFactory
     {
         
 
-            public static IClientObserver Cast(IAddressable grainRef)
+                        public static IPongGrain GetGrain(long primaryKey, string keyExt)
+                        {
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPongGrain), -2136568026, primaryKey, keyExt));
+                        }
+
+                        public static IPongGrain GetGrain(long primaryKey, string keyExt, string grainClassNamePrefix)
+                        {
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPongGrain), -2136568026, primaryKey, keyExt, grainClassNamePrefix));
+                        }
+
+                        public static IPongGrain GetGrain(Guid primaryKey, string keyExt)
+                        {
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPongGrain), -2136568026, primaryKey, keyExt));
+                        }
+
+                        public static IPongGrain GetGrain(Guid primaryKey, string keyExt, string grainClassNamePrefix)
+                        {
+                            return Cast(GrainFactoryBase.MakeKeyExtendedGrainReferenceInternal(typeof(IPongGrain), -2136568026, primaryKey, keyExt,grainClassNamePrefix));
+                        }
+
+            public static IPongGrain Cast(IAddressable grainRef)
             {
                 
-                return ClientObserverReference.Cast(grainRef);
+                return PongGrainReference.Cast(grainRef);
             }
-
-        private static IGrainMethodInvoker methodInvoker;
-
-        public async static System.Threading.Tasks.Task<IClientObserver> CreateObjectReference(IClientObserver obj)
-        {
-            if (methodInvoker == null) methodInvoker = new ClientObserverMethodInvoker();
-            return ClientObserverFactory.Cast(await GrainReference.CreateObjectReference(obj, methodInvoker));
-        }
-
-        public static void DeleteObjectReference(IClientObserver reference)
-        {
-            GrainReference.DeleteObjectReference(reference);
-        }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
         [System.SerializableAttribute()]
-        [Orleans.GrainReferenceAttribute("Orleans.PingPong.IClientObserver")]
-        internal class ClientObserverReference : Orleans.GrainReference, IClientObserver, Orleans.IAddressable
+        [Orleans.GrainReferenceAttribute("Orleans.PingPong.IPongGrain")]
+        internal class PongGrainReference : Orleans.GrainReference, IPongGrain, Orleans.IAddressable
         {
             
 
-            public static IClientObserver Cast(IAddressable grainRef)
+            public static IPongGrain Cast(IAddressable grainRef)
             {
                 
-                return (IClientObserver) GrainReference.CastInternal(typeof(IClientObserver), (GrainReference gr) => { return new ClientObserverReference(gr);}, grainRef, 1126410990);
+                return (IPongGrain) GrainReference.CastInternal(typeof(IPongGrain), (GrainReference gr) => { return new PongGrainReference(gr);}, grainRef, -2136568026);
             }
 
-                protected override int InterfaceId { get { return 1126410990; } }
+                protected override int InterfaceId { get { return -2136568026; } }
 
                 public override bool IsCompatible(int interfaceId) { return interfaceId == this.InterfaceId; }
 
-                protected override string InterfaceName { get { return "Orleans.PingPong.IClientObserver"; } }
+                protected override string InterfaceName { get { return "Orleans.PingPong.IPongGrain"; } }
 
-                protected override string GetMethodName(int interfaceId, int methodId) { return ClientObserverMethodInvoker.GetMethodName(interfaceId, methodId); }
+                protected override string GetMethodName(int interfaceId, int methodId) { return PongGrainMethodInvoker.GetMethodName(interfaceId, methodId); }
             
-            protected internal ClientObserverReference(GrainReference reference) : 
+            protected internal PongGrainReference(GrainReference reference) : 
                     base(reference)
             {
             }
@@ -275,42 +297,42 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
             [Orleans.CopierMethodAttribute()]
             public static object _Copier(object original)
             {
-                ClientObserverReference input = ((ClientObserverReference)(original));
-                return ((ClientObserverReference)(GrainReference.CopyGrainReference(input)));
+                PongGrainReference input = ((PongGrainReference)(original));
+                return ((PongGrainReference)(GrainReference.CopyGrainReference(input)));
             }
             
             [Orleans.SerializerMethodAttribute()]
             public static void _Serializer(object original, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
             {
-                ClientObserverReference input = ((ClientObserverReference)(original));
+                PongGrainReference input = ((PongGrainReference)(original));
                 GrainReference.SerializeGrainReference(input, stream, expected);
             }
             
             [Orleans.DeserializerMethodAttribute()]
             public static object _Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
             {
-                return ClientObserverReference.Cast(((Orleans.GrainReference)(GrainReference.DeserializeGrainReference(expected, stream))));
+                return PongGrainReference.Cast(((Orleans.GrainReference)(GrainReference.DeserializeGrainReference(expected, stream))));
             }
             
-            public void Done(long pings, long pongs)
+            public System.Threading.Tasks.Task Handle(object message)
             {
 
-                base.InvokeOneWayMethod(-1778340467, new object[] {pings, pongs} );
+                return base.InvokeMethodAsync<object>(1804230293, new object[] {message}, TimeSpan.Zero );
             }
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [Orleans.MethodInvokerAttribute("Orleans.PingPong.IClientObserver", 1126410990)]
-    internal class ClientObserverMethodInvoker : IGrainMethodInvoker
+    [Orleans.MethodInvokerAttribute("Orleans.PingPong.IPongGrain", -2136568026)]
+    internal class PongGrainMethodInvoker : IGrainMethodInvoker
     {
         
         public int InterfaceId
         {
             get
             {
-                return 1126410990;
+                return -2136568026;
             }
         }
         
@@ -319,168 +341,11 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
                 if (grain == null) throw new System.ArgumentNullException("grain");
                 switch (interfaceId)
                 {
-                    case 1126410990:  // IClientObserver
+                    case -2136568026:  // IPongGrain
                         switch (methodId)
                         {
-                            case -1778340467: 
-                                ((IClientObserver)grain).Done((Int64)arguments[0], (Int64)arguments[1]); return true;
-                            default: 
-                                throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
-                        }
-                    default:
-                        throw new System.InvalidCastException("interfaceId="+interfaceId);
-                }
-        }
-        
-        public static string GetMethodName(int interfaceId, int methodId)
-        {
-
-            switch (interfaceId)
-            {
-                
-                case 1126410990:  // IClientObserver
-                    switch (methodId)
-                    {
-                        case -1778340467:
-                            return "Done";
-                    case -606142484:
-                            return "GetProperties";
-                    
-                        default: 
-                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
-                    }
-
-                default:
-                    throw new System.InvalidCastException("interfaceId="+interfaceId);
-            }
-        }
-    }
-    
-    [Serializable()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class ClientObserverProperties
-    {
-        
-
-            public Dictionary<string,object> AsDictionary()
-            {  
-                var retValue = new Dictionary<string,object>();
-                return retValue;
-            }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class DestinationFactory
-    {
-        
-
-                        public static IDestination GetGrain(long primaryKey)
-                        {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IDestination), 1662910789, primaryKey));
-                        }
-
-                        public static IDestination GetGrain(long primaryKey, string grainClassNamePrefix)
-                        {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IDestination), 1662910789, primaryKey, grainClassNamePrefix));
-                        }
-
-                        public static IDestination GetGrain(Guid primaryKey)
-                        {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IDestination), 1662910789, primaryKey));
-                        }
-
-                        public static IDestination GetGrain(Guid primaryKey, string grainClassNamePrefix)
-                        {
-                            return Cast(GrainFactoryBase.MakeGrainReferenceInternal(typeof(IDestination), 1662910789, primaryKey, grainClassNamePrefix));
-                        }
-
-            public static IDestination Cast(IAddressable grainRef)
-            {
-                
-                return DestinationReference.Cast(grainRef);
-            }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-        [System.SerializableAttribute()]
-        [Orleans.GrainReferenceAttribute("Orleans.PingPong.IDestination")]
-        internal class DestinationReference : Orleans.GrainReference, IDestination, Orleans.IAddressable
-        {
-            
-
-            public static IDestination Cast(IAddressable grainRef)
-            {
-                
-                return (IDestination) GrainReference.CastInternal(typeof(IDestination), (GrainReference gr) => { return new DestinationReference(gr);}, grainRef, 1662910789);
-            }
-
-                protected override int InterfaceId { get { return 1662910789; } }
-
-                public override bool IsCompatible(int interfaceId) { return interfaceId == this.InterfaceId; }
-
-                protected override string InterfaceName { get { return "Orleans.PingPong.IDestination"; } }
-
-                protected override string GetMethodName(int interfaceId, int methodId) { return DestinationMethodInvoker.GetMethodName(interfaceId, methodId); }
-            
-            protected internal DestinationReference(GrainReference reference) : 
-                    base(reference)
-            {
-            }
-            
-            [Orleans.CopierMethodAttribute()]
-            public static object _Copier(object original)
-            {
-                DestinationReference input = ((DestinationReference)(original));
-                return ((DestinationReference)(GrainReference.CopyGrainReference(input)));
-            }
-            
-            [Orleans.SerializerMethodAttribute()]
-            public static void _Serializer(object original, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-            {
-                DestinationReference input = ((DestinationReference)(original));
-                GrainReference.SerializeGrainReference(input, stream, expected);
-            }
-            
-            [Orleans.DeserializerMethodAttribute()]
-            public static object _Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
-            {
-                return DestinationReference.Cast(((Orleans.GrainReference)(GrainReference.DeserializeGrainReference(expected, stream))));
-            }
-            
-            public System.Threading.Tasks.Task Ping(Orleans.PingPong.IClient from, Orleans.PingPong.Message message)
-            {
-
-                return base.InvokeMethodAsync<object>(1491328371, new object[] {from is GrainBase ? Orleans.PingPong.ClientFactory.Cast(from.AsReference()) : from, message}, TimeSpan.Zero );
-            }
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [Orleans.MethodInvokerAttribute("Orleans.PingPong.IDestination", 1662910789)]
-    internal class DestinationMethodInvoker : IGrainMethodInvoker
-    {
-        
-        public int InterfaceId
-        {
-            get
-            {
-                return 1662910789;
-            }
-        }
-        
-        public async System.Threading.Tasks.Task<Object> Invoke(IAddressable grain, int interfaceId, int methodId, object[] arguments)
-        {
-                if (grain == null) throw new System.ArgumentNullException("grain");
-                switch (interfaceId)
-                {
-                    case 1662910789:  // IDestination
-                        switch (methodId)
-                        {
-                            case 1491328371: 
-                                await ((IDestination)grain).Ping((IClient)arguments[0], (Message)arguments[1]);
+                            case 1804230293: 
+                                await ((IPongGrain)grain).Handle((Object)arguments[0]);
                               return true;
                             default: 
                                 throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
@@ -496,11 +361,11 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
             switch (interfaceId)
             {
                 
-                case 1662910789:  // IDestination
+                case -2136568026:  // IPongGrain
                     switch (methodId)
                     {
-                        case 1491328371:
-                            return "Ping";
+                        case 1804230293:
+                            return "Handle";
                     case -606142484:
                             return "GetProperties";
                     
@@ -517,7 +382,7 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
     [Serializable()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.814.60418")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class DestinationProperties
+    public class PongGrainProperties
     {
         
 
@@ -556,6 +421,221 @@ GrainFactoryBase.CheckGrainObserverParamInternal(subscriber);
         public static void Register()
         {
             Orleans.Serialization.SerializationManager.Register(typeof(Orleans.PingPong.Message), DeepCopier, Serializer, Deserializer);
+        }
+    }
+    
+    [Orleans.RegisterSerializerAttribute()]
+    internal class Orleans_PingPong_InitializeSerialization
+    {
+        
+        private static System.Reflection.FieldInfo fieldInfo1;
+        
+        private static System.Reflection.FieldInfo fieldInfo2;
+        
+        static Orleans_PingPong_InitializeSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Orleans.PingPong.Initialize input = ((Orleans.PingPong.Initialize)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Destination, stream, typeof(String));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Repeats, stream, typeof(Int64));
+        }
+        
+        public static object Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Orleans.PingPong.Initialize result = ((Orleans.PingPong.Initialize)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Orleans.PingPong.Initialize))));
+            object objResult = ((object)(result));
+            object temp1 = ((String)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(String), stream)));
+            fieldInfo1.SetValue(objResult, temp1);
+            object temp2 = ((Int64)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Int64), stream)));
+            fieldInfo2.SetValue(objResult, temp2);
+            return objResult;
+        }
+        
+        public static void Register()
+        {
+            Orleans.Serialization.SerializationManager.Register(typeof(Orleans.PingPong.Initialize), DeepCopier, Serializer, Deserializer);
+            fieldInfo1 = typeof(Orleans.PingPong.Initialize).GetField("Destination", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo2 = typeof(Orleans.PingPong.Initialize).GetField("Repeats", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+        }
+    }
+    
+    [Orleans.RegisterSerializerAttribute()]
+    internal class Orleans_PingPong_RunBenchmarkSerialization
+    {
+        
+        static Orleans_PingPong_RunBenchmarkSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Orleans.PingPong.RunBenchmark input = ((Orleans.PingPong.RunBenchmark)(untypedInput));
+        }
+        
+        public static object Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Orleans.PingPong.RunBenchmark result = new Orleans.PingPong.RunBenchmark();
+            return result;
+        }
+        
+        public static void Register()
+        {
+            Orleans.Serialization.SerializationManager.Register(typeof(Orleans.PingPong.RunBenchmark), DeepCopier, Serializer, Deserializer);
+        }
+    }
+    
+    [Orleans.RegisterSerializerAttribute()]
+    internal class Orleans_PingPong_BenchmarkDoneSerialization
+    {
+        
+        private static System.Reflection.FieldInfo fieldInfo1;
+        
+        private static System.Reflection.FieldInfo fieldInfo2;
+        
+        static Orleans_PingPong_BenchmarkDoneSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Orleans.PingPong.BenchmarkDone input = ((Orleans.PingPong.BenchmarkDone)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Pings, stream, typeof(Int64));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Pongs, stream, typeof(Int64));
+        }
+        
+        public static object Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Orleans.PingPong.BenchmarkDone result = ((Orleans.PingPong.BenchmarkDone)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Orleans.PingPong.BenchmarkDone))));
+            object objResult = ((object)(result));
+            object temp1 = ((Int64)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Int64), stream)));
+            fieldInfo1.SetValue(objResult, temp1);
+            object temp2 = ((Int64)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Int64), stream)));
+            fieldInfo2.SetValue(objResult, temp2);
+            return objResult;
+        }
+        
+        public static void Register()
+        {
+            Orleans.Serialization.SerializationManager.Register(typeof(Orleans.PingPong.BenchmarkDone), DeepCopier, Serializer, Deserializer);
+            fieldInfo1 = typeof(Orleans.PingPong.BenchmarkDone).GetField("Pings", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo2 = typeof(Orleans.PingPong.BenchmarkDone).GetField("Pongs", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+        }
+    }
+    
+    [Orleans.RegisterSerializerAttribute()]
+    internal class Orleans_PingPong_PongSerialization
+    {
+        
+        private static System.Reflection.FieldInfo fieldInfo1;
+        
+        private static System.Reflection.FieldInfo fieldInfo2;
+        
+        static Orleans_PingPong_PongSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Orleans.PingPong.Pong input = ((Orleans.PingPong.Pong)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Payload, stream, typeof(Message));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Sender, stream, typeof(String));
+        }
+        
+        public static object Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Orleans.PingPong.Pong result = ((Orleans.PingPong.Pong)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Orleans.PingPong.Pong))));
+            object objResult = ((object)(result));
+            object temp1 = ((Message)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Message), stream)));
+            fieldInfo1.SetValue(objResult, temp1);
+            object temp2 = ((String)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(String), stream)));
+            fieldInfo2.SetValue(objResult, temp2);
+            return objResult;
+        }
+        
+        public static void Register()
+        {
+            Orleans.Serialization.SerializationManager.Register(typeof(Orleans.PingPong.Pong), DeepCopier, Serializer, Deserializer);
+            fieldInfo1 = typeof(Orleans.PingPong.Pong).GetField("Payload", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo2 = typeof(Orleans.PingPong.Pong).GetField("Sender", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+        }
+    }
+    
+    [Orleans.RegisterSerializerAttribute()]
+    internal class Orleans_PingPong_PingSerialization
+    {
+        
+        private static System.Reflection.FieldInfo fieldInfo1;
+        
+        private static System.Reflection.FieldInfo fieldInfo2;
+        
+        static Orleans_PingPong_PingSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Orleans.PingPong.Ping input = ((Orleans.PingPong.Ping)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Payload, stream, typeof(Message));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Sender, stream, typeof(String));
+        }
+        
+        public static object Deserializer(System.Type expected, Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Orleans.PingPong.Ping result = ((Orleans.PingPong.Ping)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Orleans.PingPong.Ping))));
+            object objResult = ((object)(result));
+            object temp1 = ((Message)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Message), stream)));
+            fieldInfo1.SetValue(objResult, temp1);
+            object temp2 = ((String)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(String), stream)));
+            fieldInfo2.SetValue(objResult, temp2);
+            return objResult;
+        }
+        
+        public static void Register()
+        {
+            Orleans.Serialization.SerializationManager.Register(typeof(Orleans.PingPong.Ping), DeepCopier, Serializer, Deserializer);
+            fieldInfo1 = typeof(Orleans.PingPong.Ping).GetField("Payload", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo2 = typeof(Orleans.PingPong.Ping).GetField("Sender", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
         }
     }
 }

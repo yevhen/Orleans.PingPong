@@ -36,6 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Orleans.Bus">
+      <HintPath>..\packages\Orleans.Bus.0.6.9.0\lib\net45\Orleans.Bus.dll</HintPath>
+    </Reference>
+    <Reference Include="Orleans.Bus.Observables">
+      <HintPath>..\packages\Orleans.Bus.0.6.9.0\lib\net45\Orleans.Bus.Observables.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,6 +64,9 @@
       <Name>Orleans.PingPong.Grains.Interfaces</Name>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

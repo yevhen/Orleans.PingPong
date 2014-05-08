@@ -2,70 +2,82 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleans.Bus;
+
 namespace Orleans.PingPong
 {
-    public class Client : GrainBase, IClient
+    public class PingGrain : MessageBasedGrain, IPingGrain, IObservableGrain
     {
+        readonly IObserverCollection observers = new ObserverCollection();
+
+        public Task Attach(Observes o, Type e)
+        {
+            observers.Attach(o, e);
+            return TaskDone.Done;
+        }
+
+        public Task Detach(Observes o, Type e)
+        {
+            observers.Detach(o, e);
+            return TaskDone.Done;
+        }
+
+        public Task Handle(object cmd)
+        {
+            return Handle((dynamic) cmd);
+        }
+
         static readonly Message msg = new Message();
 
-        IDestination actor;
-        ObserverSubscriptionManager<IClientObserver> subscribers;
-
+        string destination;
         long pings;
         long pongs;
         long repeats;
 
-        public override Task ActivateAsync()
+        public Task Handle(Initialize cmd)
         {
-            subscribers = new ObserverSubscriptionManager<IClientObserver>();
+            destination = cmd.Destination;
+            repeats = cmd.Repeats;
+            
             return TaskDone.Done;
         }
 
-        public Task Initialize(IDestination actor, long repeats)
+        public Task Handle(RunBenchmark cmd)
         {
-            this.actor = actor;
-            this.repeats = repeats;
-
-            return TaskDone.Done;
-        }
-
-        public Task Run()
-        {
-            actor.Ping(this, msg).Ignore();
+            Bus.Send(destination, new Ping(this.Id(), msg)).Ignore();
             pings++;
 
             return TaskDone.Done;
         }
 
-        public Task Pong(IDestination @from, Message message)
+        public Task Handle(Pong cmd)
         {
             pongs++;
 
             if (pings < repeats)
             {
-                actor.Ping(this, msg);
+                Bus.Send(destination, new Ping(this.Id(), msg)).Ignore();
                 pings++;
             }
             else if (pongs >= repeats)
             {
-                subscribers.Notify(x => x.Done(pings, pongs));
+                observers.Notify(this.Id(), new BenchmarkDone(pings, pongs));
             }
 
             return TaskDone.Done;
         }
-
-        public Task Subscribe(IClientObserver subscriber)
-        {
-            subscribers.Subscribe(subscriber);
-            return TaskDone.Done;
-        }
     }
 
-    public class Destination : GrainBase, IDestination
+    public class PongGrain : MessageBasedGrain, IPongGrain
     {
-        public Task Ping(IClient @from, Message message)
+        public Task Handle(object cmd)
         {
-            from.Pong(this, message).Ignore();
+            return Handle((dynamic)cmd);
+        }
+
+        public Task Handle(Ping cmd)
+        {
+            Bus.Send(cmd.Sender, new Pong(this.Id(), cmd.Payload)).Ignore();
             return TaskDone.Done;
         }
     }

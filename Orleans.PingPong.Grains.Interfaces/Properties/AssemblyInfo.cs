@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Orleans.PingPong.Grains.Interfaces")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Contains.Orleans.Generated.Code")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Orleans.PingPong")]
