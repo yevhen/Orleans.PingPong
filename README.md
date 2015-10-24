@@ -18,4 +18,4 @@ Running on workstation with quad-core SandyBridge i2600K (3401Mhz) with 8GB of R
 
 > No tuning was done, default local silo settings were used.
 
-NOTE: Akka.net uses local actors, while Orleans always expect distribution. So 10M messages per/sec between local actors in Akka.net are not comparable to 130K messages per/s in Orleans. 
+Compared to [recently discovered performance](https://github.com/akkadotnet/akka.net/issues/1355) of synchronous request-response in Akka.Net leveled at [327 msg/sec](https://github.com/akkadotnet/akka.net/issues/1355#issuecomment-145510978) the TPS number I've got from Orleans benchmark is fantastic.
