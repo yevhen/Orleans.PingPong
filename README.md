@@ -18,4 +18,4 @@ Running on workstation with quad-core SandyBridge i2600K (3401Mhz) with 8GB of R
 
 > No tuning was done, default local silo settings were used.
 
-Compared to [recently discovered performance](https://github.com/akkadotnet/akka.net/issues/1355) of synchronous request-response in Akka.Net leveled at [327 msg/sec](https://github.com/akkadotnet/akka.net/issues/1355#issuecomment-145510978) the Orleans' TPS is incredible.
+More [realistic](https://gitter.im/dotnet/orleans?at=55b11d166e982043058b0dde) benchmarks, done by Orleans team, has shown 10K-56K of TPS, on 6 years old, 8-core server. Compared to [recently]((https://github.com/akkadotnet/akka.net/issues/1355) discovered performance of [327 msg/sec](https://github.com/akkadotnet/akka.net/issues/1355#issuecomment-145510978) for synchronous request-response in Akka(.Net), the Orleans' TPS is absolutely incredible.
